@@ -49,7 +49,17 @@
         "noExplicitAny": "off",
         "useAwait": "off",
         "noUnknownAtRules": "off",
-        "noDocumentCookie": "off"
+        "noDocumentCookie": "off",
+        "noConsole": {
+          "level": "info",
+          "options": {
+            "allow": [
+              "warn",
+              "info",
+              "error"
+            ]
+          }
+        }
       }
     }
   }

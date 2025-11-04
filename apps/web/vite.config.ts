@@ -7,7 +7,7 @@ import { defineConfig } from "vite";
 import { intlayer, intlayerMiddleware } from "vite-intlayer";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-export default defineConfig(() => ({
+export default defineConfig(({ mode }) => ({
   plugins: [
     contentCollections(),
     intlayer(),
@@ -19,6 +19,40 @@ export default defineConfig(() => ({
           ? `https://${process.env.VERCEL_URL}`
           : "http://localhost:3001",
       },
+      prerender: {
+        // Only enable static pre-rendering in production builds
+        enabled: mode === "production",
+
+        // Extract and prerender links found in HTML
+        crawlLinks: true,
+
+        // Filter which routes to prerender
+        // Only prerender about and blog pages in production
+        filter: ({ path }) => {
+          // Prerender about page for all locales
+          if (path.includes("/about")) {
+            return true;
+          }
+
+          // Prerender blog list and detail pages for all locales
+          if (path.includes("/blog")) {
+            return true;
+          }
+
+          // Don't prerender other pages (like /optimize which has dynamic functionality)
+          return false;
+        },
+        failOnError: true,
+        onSuccess: ({ page }) => {
+          console.info("Prerendering completed", page.path);
+        },
+      },
+      pages: [
+        {
+          path: "/about",
+          prerender: { enabled: true },
+        },
+      ],
     }),
     nitro(),
     viteReact({
