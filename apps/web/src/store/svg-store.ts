@@ -27,6 +27,7 @@ type SvgActions = {
   updateGlobalSettings: (settings: Partial<SvgoGlobalSettings>) => void;
   resetPlugins: () => void;
   reset: () => void;
+  applyTransformation: (transformedSvg: string) => void;
 };
 
 const defaultSvgoConfig: SvgoConfig = {
@@ -61,4 +62,6 @@ export const useSvgStore = create<SvgState & SvgActions>((set) => ({
     })),
   resetPlugins: () => set({ plugins: allSvgoPlugins }),
   reset: () => set(initialState),
+  applyTransformation: (transformedSvg) =>
+    set({ originalSvg: transformedSvg, compressedSvg: "" }),
 }));

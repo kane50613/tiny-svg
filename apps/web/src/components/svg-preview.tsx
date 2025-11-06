@@ -1,7 +1,16 @@
+import { useState } from "react";
+import { SvgSizeAdjuster } from "@/components/svg-size-adjuster";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useSvgPanZoom } from "@/hooks/use-svg-pan-zoom";
+import {
+  flipHorizontal,
+  flipVertical,
+  resizeSvg,
+  rotateSvg,
+} from "@/lib/svg-transform";
 import { cn } from "@/lib/utils";
+import { useSvgStore } from "@/store/svg-store";
 
 type SvgPreviewProps = {
   svg: string;
@@ -68,6 +77,9 @@ export function SvgPreview({ svg, title, className }: SvgPreviewProps) {
       "transparent-light"
     );
 
+  const [showSizeAdjuster, setShowSizeAdjuster] = useState(false);
+  const { applyTransformation } = useSvgStore();
+
   const cycleBackground = () => {
     const styles: BackgroundStyle[] = [
       "transparent-light",
@@ -80,6 +92,27 @@ export function SvgPreview({ svg, title, className }: SvgPreviewProps) {
     if (styles[nextIndex]) {
       setBackgroundStyle(styles[nextIndex]);
     }
+  };
+
+  const handleRotate = () => {
+    const rotated = rotateSvg(svg);
+    applyTransformation(rotated);
+  };
+
+  const handleFlipHorizontal = () => {
+    const flipped = flipHorizontal(svg);
+    applyTransformation(flipped);
+  };
+
+  const handleFlipVertical = () => {
+    const flipped = flipVertical(svg);
+    applyTransformation(flipped);
+  };
+
+  const handleResize = (newWidth: number, newHeight: number) => {
+    const resized = resizeSvg(svg, newWidth, newHeight);
+    applyTransformation(resized);
+    setShowSizeAdjuster(false);
   };
 
   if (!svg) {
@@ -100,6 +133,52 @@ export function SvgPreview({ svg, title, className }: SvgPreviewProps) {
       <div className="flex items-center justify-between border-b bg-muted/30 p-2">
         <h3 className="font-medium text-sm">{title}</h3>
         <div className="flex items-center gap-1">
+          <Button
+            onClick={handleRotate}
+            size="sm"
+            title="Rotate 90°"
+            type="button"
+            variant="outline"
+          >
+            <i className="i-hugeicons-rotate-clockwise size-4" />
+          </Button>
+          <Button
+            onClick={handleFlipHorizontal}
+            size="sm"
+            title="Flip horizontal"
+            type="button"
+            variant="outline"
+          >
+            <i className="i-hugeicons-image-flip-horizontal size-4" />
+          </Button>
+          <Button
+            onClick={handleFlipVertical}
+            size="sm"
+            title="Flip vertical"
+            type="button"
+            variant="outline"
+          >
+            <i className="i-hugeicons-image-flip-vertical size-4" />
+          </Button>
+          <div className="relative">
+            <Button
+              onClick={() => setShowSizeAdjuster(!showSizeAdjuster)}
+              size="sm"
+              title="Adjust size"
+              type="button"
+              variant="outline"
+            >
+              <i className="i-hugeicons-resize-01 size-4" />
+            </Button>
+            {showSizeAdjuster && (
+              <SvgSizeAdjuster
+                onApply={handleResize}
+                onCancel={() => setShowSizeAdjuster(false)}
+                svg={svg}
+              />
+            )}
+          </div>
+          <div className="mx-1 h-4 w-px bg-border" />
           <Button
             onClick={cycleBackground}
             size="sm"
