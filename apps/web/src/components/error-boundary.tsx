@@ -24,7 +24,6 @@ export class ErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: any) {
-    // biome-ignore lint/suspicious/noConsole: biome ignore
     console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 

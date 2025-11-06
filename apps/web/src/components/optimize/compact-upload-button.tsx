@@ -1,9 +1,7 @@
-import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
 import { useIntlayer } from "react-intlayer";
+import { useFilePicker } from "use-file-picker";
 import { Button } from "@/components/ui/button";
 import { isSvgFile } from "@/lib/file-utils";
-import { cn } from "@/lib/utils";
 
 type CompactUploadButtonProps = {
   onUpload: (file: File) => void;
@@ -16,43 +14,34 @@ export function CompactUploadButton({
 }: CompactUploadButtonProps) {
   const { header } = useIntlayer("optimize");
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
-      if (file && isSvgFile(file)) {
-        onUpload(file);
+  const { openFilePicker, loading } = useFilePicker({
+    accept: ".svg",
+    multiple: false,
+    onFilesSelected: (data: {
+      plainFiles?: File[];
+      filesContent?: unknown[];
+      errors?: unknown[];
+    }) => {
+      if (data.plainFiles && data.plainFiles.length > 0) {
+        const file = data.plainFiles[0];
+        if (file && isSvgFile(file)) {
+          onUpload(file);
+        }
       }
     },
-    [onUpload]
-  );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/svg+xml": [".svg"],
-    },
-    multiple: false,
-    noClick: false,
   });
 
   return (
-    <div
-      {...getRootProps()}
-      className={cn(
-        "inline-flex cursor-pointer rounded-md transition-all",
-        className
-      )}
+    <Button
+      className={className}
+      disabled={loading}
+      onClick={openFilePicker}
+      size="sm"
+      type="button"
+      variant="outline"
     >
-      <input {...getInputProps()} />
-      <Button
-        className="py-5"
-        size="sm"
-        type="button"
-        variant={isDragActive ? "default" : "outline"}
-      >
-        <span className="i-hugeicons-upload-02 mr-1 size-4" />
-        {header?.reupload || "Reupload"}
-      </Button>
-    </div>
+      <span className="i-hugeicons-upload-02 mr-1 size-4" />
+      {loading ? "Loading..." : header?.reupload || "Reupload"}
+    </Button>
   );
 }

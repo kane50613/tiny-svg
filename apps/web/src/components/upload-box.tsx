@@ -1,6 +1,5 @@
-import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
 import { useIntlayer } from "react-intlayer";
+import { useFilePicker } from "use-file-picker";
 import { isSvgFile } from "@/lib/file-utils";
 import { cn } from "@/lib/utils";
 
@@ -27,49 +26,47 @@ export function UploadBox({
     acceptsOnly: "Accepts .svg files only",
   };
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
-      if (file && isSvgFile(file)) {
-        onUpload(file);
+  const { openFilePicker, loading } = useFilePicker({
+    accept: ".svg",
+    multiple: false,
+    onFilesSelected: (data: {
+      plainFiles?: File[];
+      filesContent?: unknown[];
+      errors?: unknown[];
+    }) => {
+      if (data.plainFiles && data.plainFiles.length > 0) {
+        const file = data.plainFiles[0];
+        if (file && isSvgFile(file)) {
+          onUpload(file);
+        }
       }
     },
-    [onUpload]
-  );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/svg+xml": [".svg"],
-    },
-    multiple: false,
-    noClick: false,
   });
 
   return (
-    <div
-      {...getRootProps()}
+    <button
       className={cn(
-        "cursor-pointer rounded-lg border-2 border-dashed p-12 text-center transition-all",
-        isDragActive || isHighlighted
+        "w-full cursor-pointer rounded-lg border-2 border-dashed p-12 text-center transition-all",
+        isHighlighted
           ? "border-primary bg-primary/5"
           : "border-border hover:border-primary/50 hover:bg-accent/50",
         className
       )}
+      onClick={openFilePicker}
+      type="button"
     >
-      <input {...getInputProps()} />
       <div className="flex flex-col items-center gap-4">
         <div
           className={cn(
             "flex items-center justify-center rounded-full p-4 transition-colors",
-            isDragActive || isHighlighted ? "bg-primary/10" : "bg-accent"
+            isHighlighted ? "bg-primary/10" : "bg-accent"
           )}
         >
           <span className="i-hugeicons-upload-02 size-12 text-primary" />
         </div>
         <div className="space-y-2">
           <p className="font-medium text-lg">
-            {isDragActive ? safeUpload.dragActive : safeUpload.dragInactive}
+            {loading ? "Loading..." : safeUpload.dragInactive}
           </p>
           <p className="text-muted-foreground text-sm">
             {safeUpload.clickToBrowse}
@@ -86,6 +83,6 @@ export function UploadBox({
           </div>
         </div>
       </div>
-    </div>
+    </button>
   );
 }

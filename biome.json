@@ -21,10 +21,7 @@
       "!**/.intlayer"
     ]
   },
-  "extends": [
-    "ultracite",
-    "ultracite/core"
-  ],
+  "extends": ["ultracite", "ultracite/core"],
   "linter": {
     "rules": {
       "nursery": {
@@ -53,11 +50,7 @@
         "noConsole": {
           "level": "info",
           "options": {
-            "allow": [
-              "warn",
-              "info",
-              "error"
-            ]
+            "allow": ["warn", "info", "error"]
           }
         }
       }
