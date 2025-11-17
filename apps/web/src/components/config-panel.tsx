@@ -8,6 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { exportAsJpeg, exportAsPng } from "@/lib/file-utils";
 import { getPluginLabel } from "@/lib/svgo-plugins";
 import { useSvgStore } from "@/store/svg-store";
+import { useUiStore } from "@/store/ui-store";
 
 type ConfigPanelProps = {
   isCollapsed: boolean;
@@ -29,6 +30,7 @@ export function ConfigPanel({
     compressedSvg,
     fileName,
   } = useSvgStore();
+  const { activeTab, setActiveTab } = useUiStore();
   const { settings, messages } = useIntlayer("optimize");
   const { locale } = useLocale();
 
@@ -122,9 +124,16 @@ export function ConfigPanel({
               <Switch
                 checked={globalSettings.showOriginal}
                 id="show-original"
-                onCheckedChange={(checked) =>
-                  updateGlobalSettings({ showOriginal: checked })
-                }
+                onCheckedChange={(checked) => {
+                  updateGlobalSettings({ showOriginal: checked });
+                  // Auto-focus to original tab when enabled
+                  if (checked) {
+                    setActiveTab("original");
+                  } else if (activeTab === "original") {
+                    // Switch to optimized tab when disabled and currently on original
+                    setActiveTab("optimized");
+                  }
+                }}
               />
             </div>
             <div className="flex items-center justify-between">
