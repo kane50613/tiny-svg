@@ -13,7 +13,7 @@ export function getBlogPosts(
     return readyPosts;
   }
 
-  return allPosts.filter((post) => post._meta.locale === locale);
+  return readyPosts.filter((post) => post._meta.locale === locale);
 }
 
 export async function getBlogPost(
