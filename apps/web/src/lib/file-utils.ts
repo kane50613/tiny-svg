@@ -145,8 +145,19 @@ export const exportAsPng = async (
     throw new Error("Could not get canvas context");
   }
 
+  // Ensure SVG has xmlns attribute for proper rendering
+  let svgWithNamespace = svg;
+  if (!svg.includes('xmlns="http://www.w3.org/2000/svg"')) {
+    svgWithNamespace = svg.replace(
+      "<svg",
+      '<svg xmlns="http://www.w3.org/2000/svg"'
+    );
+  }
+
   const img = new Image();
-  const svgBlob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+  const svgBlob = new Blob([svgWithNamespace], {
+    type: "image/svg+xml;charset=utf-8",
+  });
   const url = URL.createObjectURL(svgBlob);
 
   return new Promise((resolve, reject) => {
@@ -197,8 +208,19 @@ export const exportAsJpeg = async (
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, width, height);
 
+  // Ensure SVG has xmlns attribute for proper rendering
+  let svgWithNamespace = svg;
+  if (!svg.includes('xmlns="http://www.w3.org/2000/svg"')) {
+    svgWithNamespace = svg.replace(
+      "<svg",
+      '<svg xmlns="http://www.w3.org/2000/svg"'
+    );
+  }
+
   const img = new Image();
-  const svgBlob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+  const svgBlob = new Blob([svgWithNamespace], {
+    type: "image/svg+xml;charset=utf-8",
+  });
   const url = URL.createObjectURL(svgBlob);
 
   return new Promise((resolve, reject) => {
