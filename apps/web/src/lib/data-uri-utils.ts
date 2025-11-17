@@ -1,3 +1,12 @@
+import {
+  BASE64_DATA_URI_PREFIX,
+  BYTE_PRECISION,
+  BYTES_DIVISOR,
+  DATA_URI_PREFIX,
+  SIZE_UNITS,
+  URL_ENCODING_REPLACEMENTS,
+} from "./constants";
+
 export interface DataUriResult {
   minified: string;
   base64: string;
@@ -14,13 +23,19 @@ export interface DataUriResult {
  */
 export function svgToDataUri(svg: string): DataUriResult {
   // Minified Data URI (using encodeURIComponent with optimizations)
-  const minified = `data:image/svg+xml,${encodeURIComponent(svg).replace(/%20/g, " ").replace(/%3D/g, "=").replace(/%3A/g, ":").replace(/%2F/g, "/")}`;
+  let encoded = encodeURIComponent(svg);
+  for (const [encoded_char, decoded] of Object.entries(
+    URL_ENCODING_REPLACEMENTS
+  )) {
+    encoded = encoded.replaceAll(encoded_char, decoded);
+  }
+  const minified = `data:${DATA_URI_PREFIX},${encoded}`;
 
   // Base64 Data URI
-  const base64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+  const base64 = `${BASE64_DATA_URI_PREFIX}${btoa(unescape(encodeURIComponent(svg)))}`;
 
   // URL Encoded Data URI
-  const urlEncoded = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+  const urlEncoded = `data:${DATA_URI_PREFIX},${encodeURIComponent(svg)}`;
 
   return {
     minified,
@@ -39,12 +54,10 @@ export function svgToDataUri(svg: string): DataUriResult {
  */
 export function formatBytes(bytes: number): string {
   if (bytes === 0) {
-    return "0 B";
+    return `0 ${SIZE_UNITS[0]}`;
   }
 
-  const k = 1024;
-  const sizes = ["B", "KB", "MB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const i = Math.floor(Math.log(bytes) / Math.log(BYTES_DIVISOR));
 
-  return `${(bytes / k ** i).toFixed(2)} ${sizes[i]}`;
+  return `${(bytes / BYTES_DIVISOR ** i).toFixed(BYTE_PRECISION)} ${SIZE_UNITS[i]}`;
 }

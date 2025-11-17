@@ -1,5 +1,15 @@
 // Utility functions for converting SVG to various framework code formats
 
+import {
+  CURRENT_COLOR,
+  DEFAULT_COMPONENT_NAME,
+  DEFAULT_VIEWBOX,
+  IGNORED_COLORS,
+  SVG_DIMENSIONS,
+  SVG_NAMESPACE,
+  URL_COLOR_PREFIX,
+} from "./constants";
+
 // Regular expressions at top level for performance
 const FIRST_CHAR_REGEX = /^./;
 const SVG_EXTENSION_REGEX = /\.svg$/i;
@@ -15,7 +25,7 @@ function toPascalCase(str: string): string {
 // Generate component name from filename
 export function getComponentName(fileName?: string): string {
   if (!fileName) {
-    return "TinySVGDemo";
+    return DEFAULT_COMPONENT_NAME;
   }
 
   // Remove .svg extension and convert to PascalCase
@@ -27,7 +37,7 @@ export function getComponentName(fileName?: string): string {
     return pascalName;
   }
 
-  return "TinySVGDemo";
+  return DEFAULT_COMPONENT_NAME;
 }
 
 // Check if a color should be ignored (none, transparent, gradients, etc.)
@@ -37,9 +47,8 @@ function isIgnoredColor(color: string): boolean {
   }
   const trimmed = color.trim().toLowerCase();
   return (
-    trimmed === "none" ||
-    trimmed === "transparent" ||
-    trimmed.startsWith("url(")
+    IGNORED_COLORS.includes(trimmed as "none" | "transparent") ||
+    trimmed.startsWith(URL_COLOR_PREFIX)
   );
 }
 
@@ -95,10 +104,10 @@ function replaceColors(svgString: string, oldColor: string): string {
     const stroke = el.getAttribute("stroke");
 
     if (fill?.trim() === oldColor) {
-      el.setAttribute("fill", "currentColor");
+      el.setAttribute("fill", CURRENT_COLOR);
     }
     if (stroke?.trim() === oldColor) {
-      el.setAttribute("stroke", "currentColor");
+      el.setAttribute("stroke", CURRENT_COLOR);
     }
   }
 
@@ -173,7 +182,7 @@ export function processSvg(svgString: string): {
   if (
     shouldUseCurrentColor &&
     uniqueColors.length === 1 &&
-    uniqueColors[0] === "currentColor"
+    uniqueColors[0] === CURRENT_COLOR
   ) {
     processed = replaceColors(processed, uniqueColors[0]);
   }
@@ -183,8 +192,8 @@ export function processSvg(svgString: string): {
 
   return {
     processedSvg: processed,
-    componentName: "TinySVGDemo",
-    viewBox: viewBox || "0 0 24 24",
+    componentName: DEFAULT_COMPONENT_NAME,
+    viewBox: viewBox || DEFAULT_VIEWBOX,
   };
 }
 
@@ -304,9 +313,9 @@ export function svgToReactJSX(svgString: string, fileName?: string): string {
 export function ${componentName}(props) {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="1em"
-      height="1em"
+      xmlns="${SVG_NAMESPACE}"
+      width="${SVG_DIMENSIONS}"
+      height="${SVG_DIMENSIONS}"
       viewBox="${viewBox}"
       {...props}
     >
@@ -331,9 +340,9 @@ export function svgToReactTSX(svgString: string, fileName?: string): string {
 export function ${componentName}(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="1em"
-      height="1em"
+      xmlns="${SVG_NAMESPACE}"
+      width="${SVG_DIMENSIONS}"
+      height="${SVG_DIMENSIONS}"
       viewBox="${viewBox}"
       {...props}
     >
@@ -354,9 +363,9 @@ export function svgToVue(svgString: string, fileName?: string): string {
 
   return `<template>
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="1em"
-    height="1em"
+    xmlns="${SVG_NAMESPACE}"
+    width="${SVG_DIMENSIONS}"
+    height="${SVG_DIMENSIONS}"
     viewBox="${viewBox}"
   >
     ${innerContent.trim()}
@@ -377,9 +386,9 @@ export function svgToSvelte(svgString: string): string {
   const { innerContent } = parseSvg(processedSvg);
 
   return `<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="1em"
-  height="1em"
+  xmlns="${SVG_NAMESPACE}"
+  width="${SVG_DIMENSIONS}"
+  height="${SVG_DIMENSIONS}"
   viewBox="${viewBox}"
   {...$$props}
 >
@@ -403,9 +412,9 @@ import Svg, { ${importList} } from "react-native-svg";
 export function ${componentName}(props) {
   return (
     <Svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="1em"
-      height="1em"
+      xmlns="${SVG_NAMESPACE}"
+      width="${SVG_DIMENSIONS}"
+      height="${SVG_DIMENSIONS}"
       viewBox="${viewBox}"
       {...props}
     >

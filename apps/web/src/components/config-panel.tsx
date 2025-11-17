@@ -13,18 +13,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import {
+  DEFAULT_JPEG_QUALITY,
+  DEFAULT_SVG_DIMENSION,
+  EXPORT_SCALE_OPTIONS,
+  SCALE_MATCH_THRESHOLD,
+  VIEWBOX_SPLIT_PATTERN,
+  VIEWBOX_VALUES_COUNT,
+} from "@/lib/constants";
 import { exportAsJpeg, exportAsPng } from "@/lib/file-utils";
 import { getPluginLabel } from "@/lib/svgo-plugins";
 import { useSvgStore } from "@/store/svg-store";
 import { type ExportScale, useUiStore } from "@/store/ui-store";
-
-// Constants
-const VIEWBOX_SPLIT_PATTERN = /\s+|,/;
-const VIEWBOX_VALUES_COUNT = 4;
-const DEFAULT_SVG_DIMENSION = 100;
-const SCALE_MATCH_THRESHOLD = 0.01;
-const JPEG_QUALITY = 0.95;
-const SCALE_OPTIONS = [0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 5, 6, 7, 8] as const;
 
 type ConfigPanelProps = {
   isCollapsed: boolean;
@@ -182,7 +182,7 @@ export function ConfigPanel({
 
     // Check if it matches any preset scale
     const scale = width / svgDimensions.width;
-    const matchingScale = SCALE_OPTIONS.find(
+    const matchingScale = EXPORT_SCALE_OPTIONS.find(
       (s) => Math.abs(s - scale) < SCALE_MATCH_THRESHOLD
     );
     setExportScale(matchingScale || null);
@@ -200,7 +200,7 @@ export function ConfigPanel({
 
     // Check if it matches any preset scale
     const scale = height / svgDimensions.height;
-    const matchingScale = SCALE_OPTIONS.find(
+    const matchingScale = EXPORT_SCALE_OPTIONS.find(
       (s) => Math.abs(s - scale) < SCALE_MATCH_THRESHOLD
     );
     setExportScale(matchingScale || null);
@@ -232,7 +232,7 @@ export function ConfigPanel({
       await exportAsJpeg(
         compressedSvg,
         fileName,
-        JPEG_QUALITY,
+        DEFAULT_JPEG_QUALITY,
         exportWidth,
         exportHeight
       );
@@ -417,7 +417,7 @@ export function ConfigPanel({
                       <SelectValue placeholder="--" />
                     </SelectTrigger>
                     <SelectContent>
-                      {SCALE_OPTIONS.map((scale) => (
+                      {EXPORT_SCALE_OPTIONS.map((scale) => (
                         <SelectItem key={scale} value={scale.toString()}>
                           {scale}x
                         </SelectItem>

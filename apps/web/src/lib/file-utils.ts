@@ -1,5 +1,19 @@
+import {
+  DEFAULT_DIMENSION,
+  DEFAULT_JPEG_QUALITY,
+  JPEG_MIME_TYPE,
+  MIN_EXPORT_DIMENSION,
+  PNG_MIME_TYPE,
+  SVG_BLOB_TYPE,
+  SVG_EXTENSION,
+  SVG_MIME_TYPE,
+  SVG_NAMESPACE,
+  VIEWBOX_SPLIT_PATTERN,
+  VIEWBOX_VALUES_COUNT,
+} from "./constants";
+
 export const isSvgFile = (file: File): boolean =>
-  file.type === "image/svg+xml" || file.name.endsWith(".svg");
+  file.type === SVG_MIME_TYPE || file.name.endsWith(SVG_EXTENSION);
 
 export const readFileAsText = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -19,7 +33,7 @@ export const readFileAsText = (file: File): Promise<string> =>
   });
 
 export const downloadSvg = (svg: string, fileName: string): void => {
-  const blob = new Blob([svg], { type: "image/svg+xml" });
+  const blob = new Blob([svg], { type: SVG_MIME_TYPE });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -41,8 +55,9 @@ export const isSvgContent = (content: string): boolean => {
 
 export const extractSvgFromBase64 = (base64: string): string | null => {
   try {
-    if (base64.startsWith("data:image/svg+xml;base64,")) {
-      const svgData = base64.replace("data:image/svg+xml;base64,", "");
+    const base64Prefix = `data:${SVG_MIME_TYPE};base64,`;
+    if (base64.startsWith(base64Prefix)) {
+      const svgData = base64.replace(base64Prefix, "");
       return atob(svgData);
     }
     return null;
@@ -69,18 +84,9 @@ export const prettifySvg = async (svg: string): Promise<string> => {
 };
 
 export const svgToDataUrl = (svg: string): string => {
-  const blob = new Blob([svg], { type: "image/svg+xml" });
+  const blob = new Blob([svg], { type: SVG_MIME_TYPE });
   return URL.createObjectURL(blob);
 };
-
-// Default dimensions for SVG export
-const DEFAULT_DIMENSION = 1024;
-// Minimum export dimension to ensure quality
-const MIN_EXPORT_DIMENSION = 512;
-// Expected number of viewBox values
-const VIEWBOX_VALUES_COUNT = 4;
-// Regex pattern for splitting viewBox values
-const VIEWBOX_SPLIT_PATTERN = /\s+|,/;
 
 const getSvgDimensions = (svg: string): { width: number; height: number } => {
   const parser = new DOMParser();
@@ -154,16 +160,14 @@ export const exportAsPng = async (
 
   // Ensure SVG has xmlns attribute for proper rendering
   let svgWithNamespace = svg;
-  if (!svg.includes('xmlns="http://www.w3.org/2000/svg"')) {
-    svgWithNamespace = svg.replace(
-      "<svg",
-      '<svg xmlns="http://www.w3.org/2000/svg"'
-    );
+  const xmlnsAttr = `xmlns="${SVG_NAMESPACE}"`;
+  if (!svg.includes(xmlnsAttr)) {
+    svgWithNamespace = svg.replace("<svg", `<svg ${xmlnsAttr}`);
   }
 
   const img = new Image();
   const svgBlob = new Blob([svgWithNamespace], {
-    type: "image/svg+xml;charset=utf-8",
+    type: SVG_BLOB_TYPE,
   });
   const url = URL.createObjectURL(svgBlob);
 
@@ -176,7 +180,7 @@ export const exportAsPng = async (
         if (blob) {
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
-          link.download = fileName.replace(".svg", ".png");
+          link.download = fileName.replace(SVG_EXTENSION, ".png");
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -185,7 +189,7 @@ export const exportAsPng = async (
         } else {
           reject(new Error("Failed to create blob"));
         }
-      }, "image/png");
+      }, PNG_MIME_TYPE);
     });
 
     img.addEventListener("error", () => {
@@ -200,7 +204,7 @@ export const exportAsPng = async (
 export const exportAsJpeg = async (
   svg: string,
   fileName: string,
-  quality = 0.95,
+  quality = DEFAULT_JPEG_QUALITY,
   customWidth?: number,
   customHeight?: number
 ): Promise<void> => {
@@ -224,16 +228,14 @@ export const exportAsJpeg = async (
 
   // Ensure SVG has xmlns attribute for proper rendering
   let svgWithNamespace = svg;
-  if (!svg.includes('xmlns="http://www.w3.org/2000/svg"')) {
-    svgWithNamespace = svg.replace(
-      "<svg",
-      '<svg xmlns="http://www.w3.org/2000/svg"'
-    );
+  const xmlnsAttr = `xmlns="${SVG_NAMESPACE}"`;
+  if (!svg.includes(xmlnsAttr)) {
+    svgWithNamespace = svg.replace("<svg", `<svg ${xmlnsAttr}`);
   }
 
   const img = new Image();
   const svgBlob = new Blob([svgWithNamespace], {
-    type: "image/svg+xml;charset=utf-8",
+    type: SVG_BLOB_TYPE,
   });
   const url = URL.createObjectURL(svgBlob);
 
@@ -247,7 +249,7 @@ export const exportAsJpeg = async (
           if (blob) {
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = fileName.replace(".svg", ".jpg");
+            link.download = fileName.replace(SVG_EXTENSION, ".jpg");
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -257,7 +259,7 @@ export const exportAsJpeg = async (
             reject(new Error("Failed to create blob"));
           }
         },
-        "image/jpeg",
+        JPEG_MIME_TYPE,
         quality
       );
     });
