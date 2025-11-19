@@ -1,4 +1,5 @@
 import { CodeDiffViewerLazy } from "@/components/lazy/code-diff-viewer-lazy";
+import { ReactTabContentLazy } from "@/components/lazy/react-tab-content-lazy";
 import { CodeTabContent } from "@/components/optimize/code-tab-content";
 import { DataUriTabContent } from "@/components/optimize/data-uri-tab-content";
 import { SvgPreview } from "@/components/svg-preview";
@@ -49,8 +50,7 @@ export function OptimizeTabs({
         <TabsTrigger disabled={!compressedSvg} value="data-uri">
           {ui?.dataUriTab || "Data URI"}
         </TabsTrigger>
-        <TabsTrigger value="react-jsx">React JSX</TabsTrigger>
-        <TabsTrigger value="react-tsx">React TSX</TabsTrigger>
+        <TabsTrigger value="react">React</TabsTrigger>
         <TabsTrigger value="vue">Vue</TabsTrigger>
         <TabsTrigger value="svelte">Svelte</TabsTrigger>
         <TabsTrigger value="react-native">React Native</TabsTrigger>
@@ -105,14 +105,14 @@ export function OptimizeTabs({
         <DataUriTabContent compressedSvg={compressedSvg} />
       </TabsContent>
 
-      {[
-        "react-jsx",
-        "react-tsx",
-        "vue",
-        "svelte",
-        "react-native",
-        "flutter",
-      ].map((tab) => (
+      <TabsContent className="mt-4 flex-1 overflow-hidden" value="react">
+        <ReactTabContentLazy
+          componentName={componentName}
+          generatedCodes={generatedCodes}
+        />
+      </TabsContent>
+
+      {["vue", "svelte", "react-native", "flutter"].map((tab) => (
         <TabsContent
           className="mt-4 flex-1 overflow-hidden"
           key={tab}

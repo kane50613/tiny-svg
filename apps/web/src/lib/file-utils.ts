@@ -36,8 +36,16 @@ export const readFileAsText = (file: File): Promise<string> =>
     reader.readAsText(file);
   });
 
-export const downloadSvg = (svg: string, fileName: string): void => {
-  const blob = new Blob([svg], { type: SVG_MIME_TYPE });
+/**
+ * Generic file download function
+ * Downloads content as a file with specified filename and MIME type
+ */
+export const downloadFile = (
+  content: string,
+  fileName: string,
+  mimeType = "text/plain;charset=utf-8"
+): void => {
+  const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -46,6 +54,10 @@ export const downloadSvg = (svg: string, fileName: string): void => {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
+};
+
+export const downloadSvg = (svg: string, fileName: string): void => {
+  downloadFile(svg, fileName, SVG_MIME_TYPE);
 };
 
 export const copyToClipboard = async (text: string): Promise<void> => {

@@ -1,13 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { refractor } from "refractor/all";
 import { CodeActionsToolbar } from "@/components/ui/code-actions-toolbar";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { SupportedLanguage } from "@/lib/worker-utils/prettier-worker-client";
 import "@/components/ui/diff/theme.css";
 
-type CodeViewerProps = {
-  code: string;
+type ReactSubTab = "jsx" | "tsx";
+
+type ReactTabContentProps = {
+  generatedCodes: Map<string, string>;
+  componentName: string;
+};
+
+type SubTabConfig = {
+  ext: string;
   language: SupportedLanguage;
-  fileName: string;
+  originalTabName: string;
+};
+
+const subTabConfig: Record<ReactSubTab, SubTabConfig> = {
+  jsx: { ext: "jsx", language: "javascript", originalTabName: "react-jsx" },
+  tsx: { ext: "tsx", language: "typescript", originalTabName: "react-tsx" },
 };
 
 // Map supported languages to refractor language IDs
@@ -52,37 +65,67 @@ function highlight(code: string, lang: string): React.ReactNode[] {
   }
 }
 
-export function CodeViewer({ code, language, fileName }: CodeViewerProps) {
-  const [displayCode, setDisplayCode] = useState(code);
+export function ReactTabContent({
+  generatedCodes,
+  componentName,
+}: ReactTabContentProps) {
+  const [activeSubTab, setActiveSubTab] = useState<ReactSubTab>("jsx");
+  const [displayCode, setDisplayCode] = useState("");
   const [isPrettified, setIsPrettified] = useState(false);
 
-  // Update displayCode when code prop changes
+  const config = subTabConfig[activeSubTab];
+  const code = generatedCodes.get(config.originalTabName) || "";
+
+  // Update displayCode when code changes
   useEffect(() => {
     setDisplayCode(code);
     setIsPrettified(false);
   }, [code]);
 
-  const refractorLang = languageMap[language] || "javascript";
-  const codeLines = displayCode.split("\n");
+  if (!code) {
+    return (
+      <div className="flex h-full items-center justify-center text-muted-foreground">
+        Generating code...
+      </div>
+    );
+  }
 
+  const refractorLang = languageMap[config.language] || "javascript";
+  const codeLines = displayCode.split("\n");
   const LINE_KEY_PREVIEW_LENGTH = 20;
 
   return (
-    <div className="relative h-full">
-      {/* Action buttons */}
-      <div className="absolute top-4 right-4 z-10">
+    <div className="relative flex h-full flex-col">
+      {/* Header with sub-tabs and operations */}
+      <div className="mb-3 flex items-center justify-between">
+        {/* Left: Sub-tabs */}
+        <Tabs
+          onValueChange={(value) => setActiveSubTab(value as ReactSubTab)}
+          value={activeSubTab}
+        >
+          <TabsList className="h-8">
+            <TabsTrigger className="py-0.5" value="jsx">
+              JSX
+            </TabsTrigger>
+            <TabsTrigger className="py-0.5" value="tsx">
+              TSX
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+
+        {/* Right: Operations */}
         <CodeActionsToolbar
           code={displayCode}
-          fileName={fileName}
+          fileName={`${componentName}.${config.ext}`}
           isPrettified={isPrettified}
-          language={language}
+          language={config.language}
           onCodeChange={setDisplayCode}
           onPrettifyStateChange={setIsPrettified}
         />
       </div>
 
-      {/* Code Display with refractor highlighting */}
-      <div className="h-full overflow-auto rounded-lg border">
+      {/* Code Display */}
+      <div className="flex-1 overflow-auto rounded-lg border">
         <table className="m-0 w-full border-separate border-spacing-0 overflow-x-auto border-0 font-mono text-[0.8rem]">
           <tbody className="box-border w-full">
             {codeLines.map((line, index) => {

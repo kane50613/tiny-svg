@@ -60,7 +60,7 @@ export function DataUriTabContent({ compressedSvg }: DataUriTabContentProps) {
   return (
     <div className="flex h-full flex-col gap-4 overflow-y-auto">
       {/* Minified Data URI Card */}
-      <Card className="flex-shrink-0">
+      <Card className="shrink-0">
         <CardHeader>
           <CardTitle>Minified Data URI</CardTitle>
           <CardDescription>
@@ -91,7 +91,7 @@ export function DataUriTabContent({ compressedSvg }: DataUriTabContentProps) {
       </Card>
 
       {/* Base64 Data URI Card */}
-      <Card className="flex-shrink-0">
+      <Card className="shrink-0">
         <CardHeader>
           <CardTitle>Base64 Data URI</CardTitle>
           <CardDescription>
@@ -121,7 +121,7 @@ export function DataUriTabContent({ compressedSvg }: DataUriTabContentProps) {
       </Card>
 
       {/* URL Encoded Data URI Card */}
-      <Card className="flex-shrink-0">
+      <Card className="shrink-0">
         <CardHeader>
           <CardTitle>URL Encoded Data URI</CardTitle>
           <CardDescription>

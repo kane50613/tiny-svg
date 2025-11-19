@@ -36,7 +36,7 @@ export const CopyButton = ({
       size="icon"
       variant="ghost"
       {...props}
-      className={cn("relative flex-shrink-0 transition-opacity", className)}
+      className={cn("relative shrink-0 transition-opacity", className)}
       onClick={handleCopy}
     >
       <span className="sr-only">Copy</span>
