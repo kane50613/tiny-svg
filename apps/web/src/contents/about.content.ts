@@ -133,11 +133,11 @@ const aboutContent = {
           ko: "Radix UI - 접근 가능한 컴포넌트 프리미티브",
           de: "Radix UI - Barrierefreie Komponenten-Primitiven",
         }),
-        monaco: t({
-          en: "Monaco Editor - Code editor",
-          zh: "Monaco Editor - 代码编辑器",
-          ko: "Monaco Editor - 코드 편집기",
-          de: "Monaco Editor - Code-Editor",
+        refractor: t({
+          en: "Refractor - Lightweight syntax highlighting",
+          zh: "Refractor - 轻量级语法高亮",
+          ko: "Refractor - 경량 구문 강조",
+          de: "Refractor - Leichtgewichtige Syntax-Hervorhebung",
         }),
         prettier: t({
           en: "Prettier - Code formatter",

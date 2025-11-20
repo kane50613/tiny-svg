@@ -137,12 +137,16 @@ bun run check-types
 
 ### State Management & Data
 - **[Zustand](https://zustand-demo.pmnd.rs/)** - Lightweight state management
+- **[TanStack Query](https://tanstack.com/query)** - Data fetching and caching
+- **[TanStack Form](https://tanstack.com/form)** - Type-safe form management
 - **[Zod](https://zod.dev/)** - TypeScript-first schema validation
+- **[localForage](https://localforage.github.io/localForage/)** - Offline storage (IndexedDB/localStorage wrapper)
 
 ### Optimization & Processing
 - **[SVGO](https://github.com/svg/svgo)** - SVG optimization engine
 - **[Prettier](https://prettier.io/)** - Code formatter for generated code
-- **[Refractor](https://github.com/wooorm/refractor)** - Lightweight syntax highlighting
+- **[Refractor](https://github.com/wooorm/refractor)** - Lightweight syntax highlighting (Prism-based)
+- **[Shiki](https://shiki.style/)** - Syntax highlighter for blog content
 - **[Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)** - Multi-threaded processing
 
 ### Progressive Web App
@@ -440,10 +444,19 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 
 ## 🙏 Acknowledgments
 
-- **[SVGO](https://github.com/svg/svgo)** - The powerful SVG optimizer
-- **[TanStack](https://tanstack.com/)** - Amazing React ecosystem
-- **[Vercel](https://vercel.com/)** - Deployment platform
-- **[shadcn/ui](https://ui.shadcn.com/)** - Beautiful UI components
+This project is built with amazing open source libraries and tools:
+
+- **[SVGO](https://github.com/svg/svgo)** - The powerful SVG optimizer that makes this all possible
+- **[TanStack](https://tanstack.com/)** - Amazing React ecosystem (Router, Start, Query, Form)
+- **[Intlayer](https://intlayer.org/)** - Type-safe internationalization made simple
+- **[Radix UI](https://www.radix-ui.com/)** - Accessible component primitives
+- **[shadcn/ui](https://ui.shadcn.com/)** - Beautiful, accessible UI components
+- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[Refractor](https://github.com/wooorm/refractor)** - Lightweight syntax highlighting
+- **[Prettier](https://prettier.io/)** - Code formatter for generated code
+- **[Biome](https://biomejs.dev/)** - Fast linter and formatter
+- **[Vite](https://vite.dev/)** - Next-generation build tool
+- **[Vercel](https://vercel.com/)** - Deployment platform with excellent DX
 - **[Better T Stack](https://better-t-stack.dev/)** - Better Start Template
 - **All contributors** who have helped improve this project
 
