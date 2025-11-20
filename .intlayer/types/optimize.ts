@@ -1,0 +1,515 @@
+/* eslint-disable */
+export default {
+  "key": "optimize",
+  "content": {
+    "title": {
+      "nodeType": "translation",
+      "translation": {
+        "en": "Optimize SVG",
+        "zh": "优化 SVG",
+        "ko": "SVG 최적화",
+        "de": "SVG optimieren"
+      }
+    },
+    "header": {
+      "title": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Optimize SVG",
+          "zh": "优化 SVG",
+          "ko": "SVG 최적화",
+          "de": "SVG optimieren"
+        }
+      },
+      "copy": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Copy",
+          "zh": "复制",
+          "ko": "복사",
+          "de": "Kopieren"
+        }
+      },
+      "download": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Download",
+          "zh": "下载",
+          "ko": "다운로드",
+          "de": "Herunterladen"
+        }
+      },
+      "reupload": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Reupload",
+          "zh": "重新上传",
+          "ko": "다시 업로드",
+          "de": "Erneut hochladen"
+        }
+      },
+      "history": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "History",
+          "zh": "历史记录",
+          "ko": "기록",
+          "de": "Verlauf"
+        }
+      }
+    },
+    "history": {
+      "title": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "History",
+          "zh": "历史记录",
+          "ko": "기록",
+          "de": "Verlauf"
+        }
+      },
+      "empty": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "No saved SVGs yet",
+          "zh": "还没有保存的 SVG",
+          "ko": "저장된 SVG가 없습니다",
+          "de": "Noch keine gespeicherten SVGs"
+        }
+      },
+      "clearAll": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Clear All",
+          "zh": "清除全部",
+          "ko": "모두 지우기",
+          "de": "Alle löschen"
+        }
+      },
+      "delete": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Delete",
+          "zh": "删除",
+          "ko": "삭제",
+          "de": "Löschen"
+        }
+      },
+      "loadEntry": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Load SVG",
+          "zh": "加载 SVG",
+          "ko": "SVG 로드",
+          "de": "SVG laden"
+        }
+      }
+    },
+    "buttons": {
+      "copy": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Copy",
+          "zh": "复制",
+          "ko": "복사",
+          "de": "Kopieren"
+        }
+      },
+      "download": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Download",
+          "zh": "下载",
+          "ko": "다운로드",
+          "de": "Herunterladen"
+        }
+      }
+    },
+    "tabs": {
+      "original": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Original",
+          "zh": "原始",
+          "ko": "원본",
+          "de": "Original"
+        }
+      },
+      "optimized": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Optimized",
+          "zh": "已优化",
+          "ko": "최적화됨",
+          "de": "Optimiert"
+        }
+      },
+      "code": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Code",
+          "zh": "代码",
+          "ko": "코드",
+          "de": "Code"
+        }
+      }
+    },
+    "settings": {
+      "title": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Settings",
+          "zh": "设置",
+          "ko": "설정",
+          "de": "Einstellungen"
+        }
+      },
+      "global": {
+        "title": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Global Settings",
+            "zh": "全局设置",
+            "ko": "グローバル설정",
+            "de": "Globale Einstellungen"
+          }
+        },
+        "showOriginal": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Show original",
+            "zh": "显示原始",
+            "ko": "원본を表示",
+            "de": "Original anzeigen"
+          }
+        },
+        "compareGzipped": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Compare gzipped",
+            "zh": "比较压缩后",
+            "ko": "Gzip 압축 비교",
+            "de": "Gzip-Komprimierung vergleichen"
+          }
+        },
+        "prettifyMarkup": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Prettify markup",
+            "zh": "美化标记",
+            "ko": "마크업 정리",
+            "de": "Markup verschönern"
+          }
+        },
+        "multipass": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Multipass",
+            "zh": "多次优化",
+            "ko": "다중 패스",
+            "de": "Mehrfachdurchlauf"
+          }
+        },
+        "numberPrecision": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Number precision",
+            "zh": "数字精度",
+            "ko": "숫자 정밀도",
+            "de": "Zahlenpräzision"
+          }
+        },
+        "transformPrecision": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Transform precision",
+            "zh": "变换精度",
+            "ko": "변환 정밀도",
+            "de": "Transformationspräzision"
+          }
+        }
+      },
+      "features": {
+        "title": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Features",
+            "zh": "功能",
+            "ko": "기능",
+            "de": "Funktionen"
+          }
+        },
+        "resetAll": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Reset all",
+            "zh": "重置全部",
+            "ko": "모두 재설정",
+            "de": "Alle zurücksetzen"
+          }
+        }
+      },
+      "export": {
+        "title": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Export",
+            "zh": "导出",
+            "ko": "내보내기",
+            "de": "Exportieren"
+          }
+        },
+        "png": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Export as PNG",
+            "zh": "导出为 PNG",
+            "ko": "PNG로 내보내기",
+            "de": "Als PNG exportieren"
+          }
+        },
+        "jpeg": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Export as JPEG",
+            "zh": "导出为 JPEG",
+            "ko": "JPEG로 내보내기",
+            "de": "Als JPEG exportieren"
+          }
+        },
+        "webp": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Export as WebP",
+            "zh": "导出为 WebP",
+            "ko": "WebP로 내보내기",
+            "de": "Als WebP exportieren"
+          }
+        },
+        "ico": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Export as ICO",
+            "zh": "导出为 ICO",
+            "ko": "ICO로 내보내기",
+            "de": "Als ICO exportieren"
+          }
+        },
+        "pdf": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Export as PDF",
+            "zh": "导出为 PDF",
+            "ko": "PDF로 내보내기",
+            "de": "Als PDF exportieren"
+          }
+        },
+        "scale": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Scale",
+            "zh": "比例",
+            "ko": "비율",
+            "de": "Maßstab"
+          }
+        },
+        "width": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Width",
+            "zh": "宽度",
+            "ko": "너비",
+            "de": "Breite"
+          }
+        },
+        "height": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Height",
+            "zh": "高度",
+            "ko": "높이",
+            "de": "Höhe"
+          }
+        }
+      }
+    },
+    "messages": {
+      "uploadSuccess": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "SVG file uploaded successfully!",
+          "zh": "SVG 文件上传成功！",
+          "ko": "SVG 파일이 성공적으로 업로드되었습니다!",
+          "de": "SVG-Datei erfolgreich hochgeladen!"
+        }
+      },
+      "copySuccess": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Copied to clipboard!",
+          "zh": "已复制到剪贴板！",
+          "ko": "クリップボードに복사しました！",
+          "de": "In die Zwischenablage kopiert!"
+        }
+      },
+      "copyError": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Failed to copy to clipboard",
+          "zh": "复制到剪贴板失败",
+          "ko": "クリップボードへの복사に失敗しました",
+          "de": "Kopieren in die Zwischenablage fehlgeschlagen"
+        }
+      },
+      "downloadSuccess": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Downloaded successfully!",
+          "zh": "下载成功！",
+          "ko": "다운로드が完了しました！",
+          "de": "Erfolgreich heruntergeladen!"
+        }
+      },
+      "downloadError": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Failed to download file",
+          "zh": "下载文件失败",
+          "ko": "ファイルの다운로드に失敗しました",
+          "de": "Datei-Download fehlgeschlagen"
+        }
+      },
+      "exportPngSuccess": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Exported as PNG!",
+          "zh": "已导出为 PNG！",
+          "ko": "PNG로 내보내기 완료！",
+          "de": "Als PNG exportiert!"
+        }
+      },
+      "exportJpegSuccess": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Exported as JPEG!",
+          "zh": "已导出为 JPEG！",
+          "ko": "JPEG로 내보내기 완료！",
+          "de": "Als JPEG exportiert!"
+        }
+      },
+      "exportWebpSuccess": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Exported as WebP!",
+          "zh": "已导出为 WebP！",
+          "ko": "WebP로 내보내기 완료！",
+          "de": "Als WebP exportiert!"
+        }
+      },
+      "exportIcoSuccess": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Exported as ICO!",
+          "zh": "已导出为 ICO！",
+          "ko": "ICO로 내보내기 완료！",
+          "de": "Als ICO exportiert!"
+        }
+      },
+      "exportPdfSuccess": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Exported as PDF!",
+          "zh": "已导出为 PDF！",
+          "ko": "PDF로 내보내기 완료！",
+          "de": "Als PDF exportiert!"
+        }
+      },
+      "exportError": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Failed to export",
+          "zh": "导出失败",
+          "ko": "내보내기 실패",
+          "de": "Export fehlgeschlagen"
+        }
+      },
+      "noSvgToExport": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "No optimized SVG to export",
+          "zh": "没有优化的 SVG 可导出",
+          "ko": "내보낼 최적화된 SVG가 없습니다",
+          "de": "Keine optimierte SVG zum Exportieren"
+        }
+      }
+    },
+    "ui": {
+      "settings": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Settings",
+          "zh": "设置",
+          "ko": "설정",
+          "de": "Einstellungen"
+        }
+      },
+      "originalTab": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Original",
+          "zh": "原始",
+          "ko": "원본",
+          "de": "Original"
+        }
+      },
+      "optimizedTab": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Optimized",
+          "zh": "已优化",
+          "ko": "최적화됨",
+          "de": "Optimiert"
+        }
+      },
+      "codeTab": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Code",
+          "zh": "代码",
+          "ko": "코드",
+          "de": "Code"
+        }
+      },
+      "dataUriTab": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Data URI",
+          "zh": "Data URI",
+          "ko": "Data URI",
+          "de": "Data URI"
+        }
+      },
+      "clickToCompress": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Click \"Compress SVG\" to optimize",
+          "zh": "点击\"压缩 SVG\"进行优化",
+          "ko": "\"SVG 압축\"을 클릭하여 최적화하세요",
+          "de": "Klicken Sie auf \"SVG komprimieren\" zum Optimieren"
+        }
+      },
+      "noOptimizedCode": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "No optimized code yet",
+          "zh": "暂无优化代码",
+          "ko": "아직 최적화된 코드가 없습니다",
+          "de": "Noch kein optimierter Code"
+        }
+      }
+    }
+  },
+  "localIds": [
+    "optimize::local::apps/web/src/contents/optimize.content.ts"
+  ]
+} as const;

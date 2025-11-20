@@ -34,6 +34,44 @@ const optimizeContent = {
         ko: "다시 업로드",
         de: "Erneut hochladen",
       }),
+      history: t({
+        en: "History",
+        zh: "历史记录",
+        ko: "기록",
+        de: "Verlauf",
+      }),
+    },
+    history: {
+      title: t({
+        en: "History",
+        zh: "历史记录",
+        ko: "기록",
+        de: "Verlauf",
+      }),
+      empty: t({
+        en: "No saved SVGs yet",
+        zh: "还没有保存的 SVG",
+        ko: "저장된 SVG가 없습니다",
+        de: "Noch keine gespeicherten SVGs",
+      }),
+      clearAll: t({
+        en: "Clear All",
+        zh: "清除全部",
+        ko: "모두 지우기",
+        de: "Alle löschen",
+      }),
+      delete: t({
+        en: "Delete",
+        zh: "删除",
+        ko: "삭제",
+        de: "Löschen",
+      }),
+      loadEntry: t({
+        en: "Load SVG",
+        zh: "加载 SVG",
+        ko: "SVG 로드",
+        de: "SVG laden",
+      }),
     },
     buttons: {
       copy: t({

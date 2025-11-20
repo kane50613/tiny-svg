@@ -3,10 +3,12 @@ import type { Locales } from "intlayer";
 import { useCallback } from "react";
 import { useIntlayer } from "react-intlayer";
 import { LocalizedLink } from "@/components/intlayer/localized-link";
+import { RecentSvgs } from "@/components/recent-svgs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UploadBox } from "@/components/upload-box";
 import { useDragAndDrop } from "@/hooks/use-drag-and-drop";
 import { usePasteHandler } from "@/hooks/use-paste-handler";
+import { useSvgHistory } from "@/hooks/use-svg-history";
 import { getLatestBlogPosts } from "@/lib/blog";
 import { readFileAsText } from "@/lib/file-utils";
 import { useSvgStore } from "@/store/svg-store";
@@ -30,6 +32,7 @@ function HomeComponent() {
   const { latestPosts } = Route.useLoaderData();
   const { setOriginalSvg } = useSvgStore();
   const { hero, features, blog, messages } = useIntlayer("home");
+  const { recentEntries } = useSvgHistory();
 
   const handleFileUpload = useCallback(
     async (file: File) => {
@@ -59,11 +62,13 @@ function HomeComponent() {
         <p className="mb-6 text-base text-muted-foreground md:mb-8 md:text-xl">
           {hero.subtitle}
         </p>
-        <UploadBox
-          className="mx-auto max-w-2xl"
-          isHighlighted={isDragging}
-          onUpload={handleFileUpload}
-        />
+        <div className="relative mx-auto max-w-2xl">
+          <RecentSvgs
+            className="-top-4 absolute left-4 z-10"
+            entries={recentEntries}
+          />
+          <UploadBox isHighlighted={isDragging} onUpload={handleFileUpload} />
+        </div>
       </section>
 
       <section>

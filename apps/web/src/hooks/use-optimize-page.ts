@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useIntlayer } from "react-intlayer";
 import { toast } from "sonner";
 import { useAutoCompress } from "@/hooks/use-auto-compress";
@@ -7,7 +7,9 @@ import { useCodeGeneration } from "@/hooks/use-code-generation";
 import { useDragAndDrop } from "@/hooks/use-drag-and-drop";
 import { usePasteHandler } from "@/hooks/use-paste-handler";
 import { usePrettifiedSvg } from "@/hooks/use-prettified-svg";
+import { useSvgHistory } from "@/hooks/use-svg-history";
 import { copyToClipboard, downloadSvg, readFileAsText } from "@/lib/file-utils";
+import type { HistoryEntry } from "@/lib/svg-history-storage";
 import { getComponentName } from "@/lib/svg-to-code";
 import { calculateCompressionRate } from "@/lib/svgo-config";
 import { useSvgStore } from "@/store/svg-store";
@@ -29,6 +31,7 @@ export function useOptimizePage() {
     fileName,
     plugins,
     globalSettings,
+    svgoConfig,
     setOriginalSvg,
     setCompressedSvg,
   } = useSvgStore();
@@ -37,10 +40,21 @@ export function useOptimizePage() {
     activeTab,
     isCollapsed,
     isMobileSettingsOpen,
+    isHistoryPanelOpen,
     setActiveTab,
     toggleCollapsed,
     toggleMobileSettings,
+    toggleHistoryPanel,
   } = useUiStore();
+
+  const {
+    entries: historyEntries,
+    recentEntries,
+    count: historyCount,
+    saveEntry,
+    deleteEntry,
+    clearAll,
+  } = useSvgHistory();
 
   const { messages, ui } = useIntlayer("optimize");
 
@@ -119,6 +133,55 @@ export function useOptimizePage() {
     ? calculateCompressionRate(originalSvg, compressedSvg)
     : 0;
 
+  // Auto-save to history when compression is complete
+  useEffect(() => {
+    if (
+      originalSvg &&
+      compressedSvg &&
+      fileName &&
+      originalSize &&
+      compressedSize
+    ) {
+      saveEntry({
+        fileName,
+        originalSvg,
+        compressedSvg,
+        thumbnail: "", // Not used, we render SVG directly
+        config: svgoConfig,
+        originalSize,
+        compressedSize,
+      });
+    }
+  }, [
+    compressedSvg,
+    fileName,
+    originalSvg,
+    originalSize,
+    compressedSize,
+    svgoConfig,
+    saveEntry,
+  ]);
+
+  const handleSelectHistoryEntry = useCallback(
+    (entry: HistoryEntry) => {
+      setOriginalSvg(entry.originalSvg, entry.fileName);
+      toggleHistoryPanel();
+      setHasAutoSwitchedTab(false);
+    },
+    [setOriginalSvg, toggleHistoryPanel, setHasAutoSwitchedTab]
+  );
+
+  const handleDeleteHistoryEntry = useCallback(
+    async (id: string) => {
+      await deleteEntry(id);
+    },
+    [deleteEntry]
+  );
+
+  const handleClearHistory = useCallback(async () => {
+    await clearAll();
+  }, [clearAll]);
+
   return {
     // SVG state
     originalSvg,
@@ -133,7 +196,13 @@ export function useOptimizePage() {
     activeTab,
     isCollapsed,
     isMobileSettingsOpen,
+    isHistoryPanelOpen,
     isDragging,
+
+    // History
+    historyEntries,
+    recentEntries,
+    historyCount,
 
     // Settings
     safeGlobalSettings,
@@ -153,5 +222,9 @@ export function useOptimizePage() {
     onTabChange: setActiveTab,
     onToggleSettings: toggleCollapsed,
     onToggleMobileSettings: toggleMobileSettings,
+    onToggleHistoryPanel: toggleHistoryPanel,
+    onSelectHistoryEntry: handleSelectHistoryEntry,
+    onDeleteHistoryEntry: handleDeleteHistoryEntry,
+    onClearHistory: handleClearHistory,
   };
 }

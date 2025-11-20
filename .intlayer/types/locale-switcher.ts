@@ -1,0 +1,27 @@
+/* eslint-disable */
+export default {
+  "key": "locale-switcher",
+  "content": {
+    "languageListLabel": {
+      "nodeType": "translation",
+      "translation": {
+        "en": "Language list",
+        "zh": "语言列表",
+        "ko": "언어 목록",
+        "de": "Sprachliste"
+      }
+    },
+    "localeSwitcherLabel": {
+      "nodeType": "translation",
+      "translation": {
+        "en": "Select language",
+        "zh": "选择语言",
+        "ko": "언어 선택",
+        "de": "Sprache wählen"
+      }
+    }
+  },
+  "localIds": [
+    "locale-switcher::local::apps/web/src/components/intlayer/locale-switcher.content.ts"
+  ]
+} as const;

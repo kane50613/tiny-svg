@@ -1,7 +1,10 @@
+import { HistoryPanel } from "@/components/history-panel";
 import { ConfigPanelLazy } from "@/components/lazy/config-panel-lazy";
 import { OptimizeHeader } from "@/components/optimize/optimize-header";
 import { OptimizeTabs } from "@/components/optimize/optimize-tabs";
+import { RecentSvgs } from "@/components/recent-svgs";
 import { UploadBox } from "@/components/upload-box";
+import type { HistoryEntry } from "@/lib/svg-history-storage";
 import type { SvgoGlobalSettings } from "@/lib/svgo-plugins";
 
 type OptimizeLayoutProps = {
@@ -13,6 +16,7 @@ type OptimizeLayoutProps = {
   compressionRate: number;
   isCollapsed: boolean;
   isMobileSettingsOpen: boolean;
+  isHistoryPanelOpen: boolean;
   activeTab: string;
   safeGlobalSettings: SvgoGlobalSettings;
   prettifiedOriginal: string;
@@ -21,11 +25,18 @@ type OptimizeLayoutProps = {
   generatedCodes: Map<string, string>;
   isDragging: boolean;
   ui: any;
+  recentEntries: HistoryEntry[];
+  historyEntries: HistoryEntry[];
+  historyCount: number;
   onFileUpload: (file: File) => Promise<void>;
   onCopy: () => Promise<void>;
   onDownload: () => void;
   onToggleSettings: () => void;
   onToggleMobileSettings: () => void;
+  onToggleHistoryPanel: () => void;
+  onSelectHistoryEntry: (entry: HistoryEntry) => void;
+  onDeleteHistoryEntry: (id: string) => void;
+  onClearHistory: () => void;
   onTabChange: (tab: string) => void;
 };
 
@@ -38,6 +49,7 @@ export function OptimizeLayout({
   compressionRate,
   isCollapsed,
   isMobileSettingsOpen,
+  isHistoryPanelOpen,
   activeTab,
   safeGlobalSettings,
   prettifiedOriginal,
@@ -46,11 +58,18 @@ export function OptimizeLayout({
   generatedCodes,
   isDragging,
   ui,
+  recentEntries,
+  historyEntries,
+  historyCount,
   onFileUpload,
   onCopy,
   onDownload,
   onToggleSettings,
   onToggleMobileSettings,
+  onToggleHistoryPanel,
+  onSelectHistoryEntry,
+  onDeleteHistoryEntry,
+  onClearHistory,
   onTabChange,
 }: OptimizeLayoutProps) {
   return (
@@ -76,10 +95,12 @@ export function OptimizeLayout({
             compressedSvg={compressedSvg}
             compressionRate={compressionRate}
             fileName={fileName}
+            historyCount={historyCount}
             isSettingsCollapsed={isCollapsed}
             onCopy={onCopy}
             onDownload={onDownload}
             onFileUpload={onFileUpload}
+            onToggleHistoryPanel={onToggleHistoryPanel}
             onToggleSettings={onToggleSettings}
             originalSize={originalSize}
           />
@@ -101,15 +122,30 @@ export function OptimizeLayout({
             />
           ) : (
             <div className="flex h-full items-center justify-center">
-              <UploadBox
-                className="max-w-2xl"
-                isHighlighted={isDragging}
-                onUpload={onFileUpload}
-              />
+              <div className="relative max-w-2xl">
+                <RecentSvgs
+                  className="-top-4 absolute left-4 z-10"
+                  entries={recentEntries}
+                />
+                <UploadBox isHighlighted={isDragging} onUpload={onFileUpload} />
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* History Panel */}
+      <HistoryPanel
+        clearAllLabel={ui?.history?.clearAll || "Clear All"}
+        emptyMessage={ui?.history?.empty || "No saved SVGs yet"}
+        entries={historyEntries}
+        isOpen={isHistoryPanelOpen}
+        onClearAll={onClearHistory}
+        onClose={onToggleHistoryPanel}
+        onDeleteEntry={onDeleteHistoryEntry}
+        onSelectEntry={onSelectHistoryEntry}
+        title={ui?.history?.title || "History"}
+      />
 
       {/* Desktop Settings Panel */}
       {!isCollapsed && (

@@ -41,7 +41,7 @@ const CollapsibleCardHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
       )}
     >
       <Button className="h-8 w-8" size="icon" variant="ghost">
-        <ChevronDown className="[[data-state=closed]_&]:-rotate-90 h-4 w-4 transition-transform duration-200" />
+        <ChevronDown className="in-data-[state=closed]:-rotate-90 h-4 w-4 transition-transform duration-200" />
       </Button>
       {children}
     </div>

@@ -1,0 +1,47 @@
+/* eslint-disable */
+export default {
+  "key": "header",
+  "content": {
+    "nav": {
+      "home": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Home",
+          "zh": "首页",
+          "ko": "홈",
+          "de": "Startseite"
+        }
+      },
+      "optimize": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Optimize",
+          "zh": "优化",
+          "ko": "최적화",
+          "de": "Optimieren"
+        }
+      },
+      "blog": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Blog",
+          "zh": "博客",
+          "ko": "블로그",
+          "de": "Blog"
+        }
+      },
+      "about": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "About",
+          "zh": "关于",
+          "ko": "정보",
+          "de": "Über"
+        }
+      }
+    }
+  },
+  "localIds": [
+    "header::local::apps/web/src/contents/header.content.ts"
+  ]
+} as const;

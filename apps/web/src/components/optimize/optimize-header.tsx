@@ -1,4 +1,5 @@
 import { useIntlayer } from "react-intlayer";
+import { HistoryButton } from "@/components/history-button";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatBytes } from "@/lib/svgo-config";
@@ -10,9 +11,11 @@ type OptimizeHeaderProps = {
   compressedSize: number;
   compressionRate: number;
   compressedSvg: string;
+  historyCount: number;
   onCopy: () => void;
   onDownload: () => void;
   onFileUpload: (file: File) => void;
+  onToggleHistoryPanel: () => void;
   isSettingsCollapsed?: boolean;
   onToggleSettings?: () => void;
 };
@@ -23,9 +26,11 @@ export function OptimizeHeader({
   compressedSize,
   compressionRate,
   compressedSvg,
+  historyCount,
   onCopy,
   onDownload,
   onFileUpload,
+  onToggleHistoryPanel,
   isSettingsCollapsed,
   onToggleSettings,
 }: OptimizeHeaderProps) {
@@ -35,12 +40,20 @@ export function OptimizeHeader({
     <div className="border-b bg-muted/30 p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
+          <HistoryButton
+            className="py-5"
+            count={historyCount}
+            label={header.history}
+            onClick={onToggleHistoryPanel}
+          />
           <CompactUploadButton className="py-5" onUpload={onFileUpload} />
-          <div className="flex flex-col">
-            <h1 className="hidden font-bold text-base md:block">
+          <div className="flex flex-col gap-1.5">
+            <h1 className="hidden font-bold text-base leading-4 md:block">
               {header.title}
             </h1>
-            <p className="text-muted-foreground text-sm">{fileName}</p>
+            <p className="text-muted-foreground text-sm leading-3">
+              {fileName}
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-2">

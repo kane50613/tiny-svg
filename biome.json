@@ -53,6 +53,9 @@
       },
       "correctness": {
         "noUnknownTypeSelector": "off"
+      },
+      "a11y": {
+        "useSemanticElements": "off"
       }
     }
   }
