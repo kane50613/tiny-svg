@@ -1,3 +1,5 @@
+import { useIntlayer } from "react-intlayer";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -19,11 +21,6 @@ type HistoryPanelProps = {
   onSelectEntry: (entry: HistoryEntry) => void;
   onDeleteEntry: (id: string) => void;
   onClearAll: () => void;
-  title: string;
-  emptyMessage: string;
-  clearAllLabel: string;
-  closeLabel: string;
-  deleteLabel: string;
 };
 
 export function HistoryPanel({
@@ -33,18 +30,14 @@ export function HistoryPanel({
   onSelectEntry,
   onDeleteEntry,
   onClearAll,
-  title,
-  emptyMessage,
-  clearAllLabel,
-  closeLabel,
-  deleteLabel,
 }: HistoryPanelProps) {
+  const { history } = useIntlayer("optimize");
   return (
     <Sheet onOpenChange={onClose} open={isOpen}>
       <SheetContent className="w-full sm:max-w-xl" hideDefaultClose side="left">
         <SheetHeader>
           <div className="flex items-center justify-between">
-            <SheetTitle>{title}</SheetTitle>
+            <SheetTitle>{history.title}</SheetTitle>
             <div className="flex items-center gap-2">
               {entries.length > 0 && (
                 <Button
@@ -53,13 +46,13 @@ export function HistoryPanel({
                   type="button"
                   variant="destructive"
                 >
-                  {clearAllLabel}
+                  {history.clearAll}
                 </Button>
               )}
               <SheetClose asChild>
                 <Button size="sm" type="button" variant="outline">
                   <span className="i-hugeicons-cancel-01 mr-1.5 size-4" />
-                  {closeLabel}
+                  {history.close}
                 </Button>
               </SheetClose>
             </div>
@@ -71,7 +64,7 @@ export function HistoryPanel({
             <div className="flex h-full flex-col items-center justify-center text-center">
               <span className="i-hugeicons-file-not-found mb-4 size-20 text-muted-foreground" />
               <p className="font-medium text-lg text-muted-foreground">
-                {emptyMessage}
+                {history.empty}
               </p>
             </div>
           ) : (
@@ -96,7 +89,21 @@ export function HistoryPanel({
                   }}
                   tabIndex={0}
                 >
-                  <div className="aspect-square overflow-hidden bg-muted p-2">
+                  <div className="relative aspect-square overflow-hidden bg-muted p-2">
+                    {entry.originalSize && entry.compressedSize && (
+                      <Badge
+                        className="absolute top-1 left-1 z-10 bg-green-300 text-black/80 dark:bg-green-400"
+                        variant="secondary"
+                      >
+                        -
+                        {Math.round(
+                          ((entry.originalSize - entry.compressedSize) /
+                            entry.originalSize) *
+                            100
+                        )}
+                        %
+                      </Badge>
+                    )}
                     <SvgThumbnail svg={entry.compressedSvg} variant="fill" />
                   </div>
                   <div className="p-2">
@@ -110,27 +117,16 @@ export function HistoryPanel({
                       <span>{formatTimestamp(entry.timestamp)}</span>
                       <span>{formatFileSize(entry.compressedSize)}</span>
                     </div>
-                    {entry.originalSize && entry.compressedSize && (
-                      <div className="mt-1 text-green-600 text-xs">
-                        -
-                        {Math.round(
-                          ((entry.originalSize - entry.compressedSize) /
-                            entry.originalSize) *
-                            100
-                        )}
-                        %
-                      </div>
-                    )}
                   </div>
                   <Button
-                    aria-label={deleteLabel}
+                    aria-label={history.delete}
                     className="absolute top-1 right-1 size-6 opacity-0 transition-opacity group-hover:opacity-100"
                     onClick={(e) => {
                       e.stopPropagation();
                       onDeleteEntry(entry.id);
                     }}
                     size="icon"
-                    title={deleteLabel}
+                    title={history.delete}
                     type="button"
                     variant="destructive"
                   >

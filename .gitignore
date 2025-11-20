@@ -51,3 +51,6 @@ temp
 
 # Content collections generated
 .content-collections
+
+# i18n
+.intlayer
