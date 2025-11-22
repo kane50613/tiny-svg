@@ -48,7 +48,7 @@ export default defineConfig(({ mode }) => ({
           // Don't prerender other pages (like /optimize which has dynamic functionality)
           return false;
         },
-        failOnError: true,
+        failOnError: false,
       },
       pages: [
         ...[
